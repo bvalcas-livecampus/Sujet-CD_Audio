@@ -14,6 +14,9 @@ exports.getAllCDs = async (req, res) => {
 exports.addCD = async (req, res) => {
   const { title, artist, year } = req.body;
   try {
+    if (!title || !artist || !year) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
     const result = await pool.query(
       "INSERT INTO cds (title, artist, year) VALUES ($1, $2, $3) RETURNING *",
       [title, artist, year]
@@ -28,6 +31,11 @@ exports.addCD = async (req, res) => {
 exports.deleteCD = async (req, res) => {
   const { id } = req.params;
   try {
+    // Verify CD exists before deleting
+    const result = await pool.query("SELECT * FROM cds WHERE id = $1", [id]);
+    if (result.rows.length === 0) {
+      return res.status(500).json({ error: "CD not found" });
+    }
     await pool.query("DELETE FROM cds WHERE id = $1", [id]);
     res.status(204).send();
   } catch (error) {
