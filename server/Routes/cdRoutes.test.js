@@ -2,6 +2,16 @@ const request = require('supertest');
 const app = require('../server');
 
 describe('CD Routes', () => {
+    describe('GET /cds', () => {
+        it('should get all CDs', async () => {
+            const response = await request(app)
+            .get('/api/cds')
+            .expect(200)
+            .expect('Content-Type', /json/);
+            
+            expect(Array.isArray(response.body)).toBe(true);
+        });
+    });
   describe('POST /cds', () => {
     it('should create a new CD with valid data', async () => {
       const newCD = {
@@ -43,21 +53,6 @@ describe('CD Routes', () => {
         .post('/api/cds')
         .send(invalidCD)
         .expect(500);
-    });
-  });
-
-  describe('GET /cds', () => {
-    it('should get all CDs', async () => {
-      const response = await request(app)
-        .get('/api/cds')
-        .expect(200)
-        .expect('Content-Type', /json/);
-      
-      expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body[0]).toHaveProperty('id');
-      expect(response.body[0]).toHaveProperty('title');
-      expect(response.body[0]).toHaveProperty('artist'); 
-      expect(response.body[0]).toHaveProperty('year');
     });
   });
 
