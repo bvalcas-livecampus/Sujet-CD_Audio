@@ -18,7 +18,7 @@ Créez un fichier `.env` dans le dossier **server** et ajoutez :
 DB_USER=user
 DB_PASSWORD=password
 DB_NAME=cd_database
-DB_HOST=postgres
+DB_HOST=localhost
 DB_PORT=5432
 PORT=5005
 ```
