@@ -20,7 +20,7 @@ const CDList = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container" data-testid="cd-list">
       <h2>Liste des CD 🎵</h2>
       <ul>
         {cds.length > 0 ? (
